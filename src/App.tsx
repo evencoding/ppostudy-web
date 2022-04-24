@@ -2,9 +2,10 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { ThemeProvider } from "styled-components";
 import { isDarkAtom } from "./atoms";
+import Header from "./components/Header";
 import Layout from "./components/Layout";
 import GlobalStyles from "./GlobalStyles";
-import Home from "./pages/Home";
+import Router from "./Router";
 import { darkTheme, lightTheme } from "./theme";
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyles />
         <Layout>
-          <Home />
+          <Header />
         </Layout>
+        <Router />
       </ThemeProvider>
     </>
   );

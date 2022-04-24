@@ -1,11 +1,5 @@
-import DarkMode from "../components/DarkMode";
-
 function Home() {
-  return (
-    <div>
-      <DarkMode />
-    </div>
-  );
+  return <div>What</div>;
 }
 
 export default Home;

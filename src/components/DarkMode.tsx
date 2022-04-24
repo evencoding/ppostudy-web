@@ -1,4 +1,5 @@
-import { useSetRecoilState } from "recoil";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { isDarkAtom } from "../atoms";
 
@@ -45,25 +46,34 @@ const Sun = styled.div`
   }
 `;
 
-const SwitchBtn = styled.div`
+const SwitchBtn = styled.div<{ isDark: boolean; isHover: boolean }>`
   background-color: #fafafa;
   border: 1px solid #4d4d4d;
   border-radius: 50%;
   height: 22px;
-  left: 1px;
+  left: ${(props) => (props.isDark ? "1px" : "27px")};
   position: absolute;
   top: 1px;
   transition: 0.25s;
   width: 22px;
+  ${(props) => (props.isHover ? "box-shadow: 0 0 2px 3px #3578e5" : null)}
 `;
 
 function DarkMode() {
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const [DarkAtom, setDarkAtom] = useRecoilState(isDarkAtom);
+  const [isHover, setIsHover] = useState(false);
+  const mouseHover = () => {
+    setIsHover((current) => !current);
+  };
   const toggleDarkAtom = () => {
     setDarkAtom((current) => !current);
   };
   return (
-    <Wrapper onClick={toggleDarkAtom}>
+    <Wrapper
+      onClick={toggleDarkAtom}
+      onMouseEnter={mouseHover}
+      onMouseLeave={mouseHover}
+    >
       <DarkModeBtn role="button" tabIndex={-1}>
         <Moon>
           <span>🌜</span>
@@ -71,7 +81,7 @@ function DarkMode() {
         <Sun>
           <span>🌞</span>
         </Sun>
-        <SwitchBtn />
+        <SwitchBtn isDark={DarkAtom} isHover={isHover} />
       </DarkModeBtn>
     </Wrapper>
   );
