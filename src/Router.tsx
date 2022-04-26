@@ -10,7 +10,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/"
+          path=""
           element={
             <Layout>
               <Home />
@@ -18,7 +18,7 @@ function Router() {
           }
         />
         <Route
-          path="profile"
+          path="login"
           element={
             <Layout>
               <Login />

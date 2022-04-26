@@ -1,8 +1,17 @@
 # PPoStudy
 
-Front Setup 👍🏻
-Dark Mode
-Login
-Room
-Home
-Profile
+## Setup
+
+Front-end Setup [👍🏻]
+Dark Mode [👍🏻]
+Apollols []
+WebRTC []
+
+## Layout
+
+Login []
+Room []
+Home []
+Profile []
+
+## Connect with Backend
