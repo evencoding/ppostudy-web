@@ -13,6 +13,9 @@ const Content = styled.div`
   justify-content: space-between;
   width: 100vw;
   padding: 15px 0;
+  span {
+    font-weight: 600;
+  }
 `;
 
 function Header() {
