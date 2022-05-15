@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CreateRoom from "./components/CreateRoom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -38,6 +39,14 @@ function Router() {
           element={
             <Layout>
               <Profile />
+            </Layout>
+          }
+        />
+        <Route
+          path="mroom"
+          element={
+            <Layout>
+              <CreateRoom />
             </Layout>
           }
         />

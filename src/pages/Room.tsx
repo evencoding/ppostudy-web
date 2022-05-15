@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useSockets } from "../context/socket.context";
+import { useRecoilValue } from "recoil";
+import { myRoomAtom } from "../atoms";
 
 const Wrapper = styled.div``;
 const Main = styled.div``;
@@ -9,7 +11,7 @@ const UserCam = styled.div``;
 const Chat = styled.div``;
 
 function Messages() {
-  const { socket, messages, setMessages } = useSockets();
+  const { messages } = useSockets();
   return (
     <>
       {messages && (
@@ -24,6 +26,7 @@ function Messages() {
 }
 
 function Room() {
+  const roomName = useRecoilValue(myRoomAtom);
   const { socket, messages, setMessages } = useSockets();
   // const mes: any = messages;
   const messageRef: any = useRef(null);
@@ -46,7 +49,7 @@ function Room() {
   return (
     <Wrapper>
       <Main>
-        <Timer>Room</Timer>
+        <Timer>Room : {roomName}</Timer>
         <UserCam>
           <div></div>
         </UserCam>
