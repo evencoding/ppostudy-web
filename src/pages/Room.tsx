@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { useRef } from "react";
 import { useSockets } from "../context/socket.context";
 import { useRecoilValue } from "recoil";
 import { myRoomAtom } from "../atoms";
+import { useForm } from "react-hook-form";
+import AddMessages from "../utils/socketUtils";
+import { gql, useQuery } from "@apollo/client";
 
 const Wrapper = styled.div``;
 const Main = styled.div``;
@@ -10,41 +12,33 @@ const Timer = styled.div``;
 const UserCam = styled.div``;
 const Chat = styled.div``;
 
-function Messages() {
-  const { messages } = useSockets();
-  return (
-    <>
-      {messages && (
-        <div>
-          {messages.map(({ message }, index: number) => {
-            return <li key={index}>{message}</li>;
-          })}
-        </div>
-      )}
-    </>
-  );
-}
+// const SEEPROFILE_QUERY = gql`
+//   query seeProfile($username: String!) {
+//     seeProfile(username: $username) {
+//       username
+//     }
+//   }
+// `;
 
 function Room() {
   const roomName = useRecoilValue(myRoomAtom);
   const { socket, messages, setMessages } = useSockets();
-  // const mes: any = messages;
-  const messageRef: any = useRef(null);
-  console.log(messages);
+  const { register, handleSubmit, setValue } = useForm();
 
-  function handleClick() {
-    const message = messageRef.current.value;
-    if (!String(message).trim()) return;
-
-    socket.emit("sendMessage", message);
-
-    messageRef.current.value = "";
-  }
-
-  socket.on("responseMessage", (message) => {
-    console.log(message);
-    setMessages([...messages, message]);
-    console.log(messages);
+  socket.on("welcome", () => {
+    setMessages([...messages, "Someone Joined the Room!"]);
+  });
+  socket.on("bye", () => {
+    setMessages([...messages, "Someone Leftㅠㅠ"]);
+  });
+  const onSubmit = (data) => {
+    socket.emit("new_message", data.msg, roomName, () => {
+      setMessages([...messages, `You: ${data.msg}`]);
+    });
+    setValue("msg", "");
+  };
+  socket.on("new_message", (msg) => {
+    setMessages([...messages, `Someone: ${msg}`]);
   });
   return (
     <Wrapper>
@@ -55,9 +49,11 @@ function Room() {
         </UserCam>
       </Main>
       <Chat>
-        <input type="text" ref={messageRef} placeholder="write message" />
-        <button onClick={handleClick}>Send</button>
-        <Messages />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input {...register("msg")} placeholder="write message" />
+          <button>Send</button>
+        </form>
+        <AddMessages msg={messages} />
       </Chat>
     </Wrapper>
   );
