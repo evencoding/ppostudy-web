@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import DarkMode from "./DarkMode";
 
@@ -22,7 +23,9 @@ function Header() {
   return (
     <Wrapper>
       <Content>
-        <span>PPoStudy</span>
+        <Link to="/">
+          <span>PPoStudy</span>
+        </Link>
         <DarkMode />
       </Content>
     </Wrapper>

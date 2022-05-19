@@ -1,4 +1,7 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { usernameVar } from "../apollo";
+import CreateRoom from "../components/CreateRoom";
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,37 +106,56 @@ const RoomInfo = styled.div`
   margin-top: 1vh;
   background-color: ${(props) => props.theme.RoomListColor};
 `;
+const Cover = styled.div`
+  background-color: black;
+  opacity: 0.4;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+`;
 
 function Home() {
+  const username = usernameVar();
+  const [showBtn, setShowBtn] = useState(false);
+  const ShowMakeBtn = () => {
+    setShowBtn((cur) => !cur);
+  };
+  const CoverMakeBtn = () => {
+    setShowBtn((cur) => !cur);
+  };
   return (
-    <Wrapper>
-      <MainInfo>
-        <CurTime>
-          <span>2022 . 05 . 12</span>
-        </CurTime>
-        <UserInfo>
-          <Profile>
-            <UserAvatar />
-            <span>Jungwoo</span>
-          </Profile>
-          <Destination>
-            <Progress>
-              <span>달성도</span>
-              <span>3:00</span>
-            </Progress>
-            <span>/</span>
-            <Progress>
-              <span>목표시간</span>
-              <span>7:00</span>
-            </Progress>
-          </Destination>
-        </UserInfo>
-        <CreateRoomBtn>
-          <div>방 만들기</div>
-        </CreateRoomBtn>
-      </MainInfo>
-      <RoomInfo>Room List</RoomInfo>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <MainInfo>
+          <CurTime>
+            <span>2022 . 05 . 12</span>
+          </CurTime>
+          <UserInfo>
+            <Profile>
+              <UserAvatar />
+              <span>{username}</span>
+            </Profile>
+            <Destination>
+              <Progress>
+                <span>달성도</span>
+                <span>3:00</span>
+              </Progress>
+              <span>/</span>
+              <Progress>
+                <span>목표시간</span>
+                <span>7:00</span>
+              </Progress>
+            </Destination>
+          </UserInfo>
+          <CreateRoomBtn onClick={ShowMakeBtn}>
+            <div>방 만들기</div>
+          </CreateRoomBtn>
+        </MainInfo>
+        <RoomInfo>Room List</RoomInfo>
+      </Wrapper>
+      {showBtn ? <Cover onClick={CoverMakeBtn} /> : null}
+      {showBtn ? <CreateRoom /> : null}
+    </>
   );
 }
 

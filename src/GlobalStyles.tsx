@@ -5,6 +5,11 @@ const GlobalStyles = createGlobalStyle`
     ${reset}
     *{
         box-sizing:border-box;
+        ::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
     }
     body{
         background-color: ${(props) => props.theme.bgColor};

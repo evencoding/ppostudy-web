@@ -1,52 +1,71 @@
+import { useReactiveVar } from "@apollo/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CreateRoom from "./components/CreateRoom";
+import { isLoggedInVar } from "./apollo";
+import Header from "./components/Header";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Room from "./pages/Room";
 
+const routes = {
+  home: "/",
+  login: "/login",
+  profile: "/profile",
+  room: "/room",
+};
+
 function Router() {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route
-          path=""
+          path={routes.home}
           element={
-            <Layout>
-              <Home />
-            </Layout>
+            isLoggedIn ? (
+              <Layout>
+                <Home />
+              </Layout>
+            ) : (
+              <Layout>
+                <Login />
+              </Layout>
+            )
           }
         />
         <Route
-          path="login"
+          path={routes.login}
           element={
-            <Layout>
+            isLoggedIn ? (
+              <Layout>
+                <Home />
+              </Layout>
+            ) : (
+              <Layout>
+                <Login />
+              </Layout>
+            )
+          }
+        />
+        <Route
+          path={routes.room}
+          element={
+            isLoggedIn ? (
+              <Layout>
+                <Room />
+              </Layout>
+            ) : (
               <Login />
-            </Layout>
+            )
           }
         />
         <Route
-          path="room"
-          element={
-            <Layout>
-              <Room />
-            </Layout>
-          }
-        />
-        <Route
-          path="profile"
+          path={routes.profile}
           element={
             <Layout>
               <Profile />
-            </Layout>
-          }
-        />
-        <Route
-          path="mroom"
-          element={
-            <Layout>
-              <CreateRoom />
             </Layout>
           }
         />

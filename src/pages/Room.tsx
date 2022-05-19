@@ -3,8 +3,7 @@ import { useSockets } from "../context/socket.context";
 import { useRecoilValue } from "recoil";
 import { myRoomAtom } from "../atoms";
 import { useForm } from "react-hook-form";
-import AddMessages from "../utils/socketUtils";
-import { gql, useQuery } from "@apollo/client";
+import { AddMessages } from "../utils/socketUtils";
 
 const Wrapper = styled.div``;
 const Main = styled.div``;
@@ -12,24 +11,16 @@ const Timer = styled.div``;
 const UserCam = styled.div``;
 const Chat = styled.div``;
 
-// const SEEPROFILE_QUERY = gql`
-//   query seeProfile($username: String!) {
-//     seeProfile(username: $username) {
-//       username
-//     }
-//   }
-// `;
-
 function Room() {
   const roomName = useRecoilValue(myRoomAtom);
   const { socket, messages, setMessages } = useSockets();
   const { register, handleSubmit, setValue } = useForm();
 
-  socket.on("welcome", () => {
-    setMessages([...messages, "Someone Joined the Room!"]);
+  socket.on("welcome", (name) => {
+    setMessages([...messages, `${name} Joined the Room!`]);
   });
-  socket.on("bye", () => {
-    setMessages([...messages, "Someone Leftㅠㅠ"]);
+  socket.on("bye", (name) => {
+    setMessages([...messages, `${name} Leftㅠㅠ`]);
   });
   const onSubmit = (data) => {
     socket.emit("new_message", data.msg, roomName, () => {
@@ -38,7 +29,7 @@ function Room() {
     setValue("msg", "");
   };
   socket.on("new_message", (msg) => {
-    setMessages([...messages, `Someone: ${msg}`]);
+    setMessages([...messages, msg]);
   });
   return (
     <Wrapper>

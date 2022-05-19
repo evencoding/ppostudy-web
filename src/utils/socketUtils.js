@@ -1,4 +1,4 @@
-function AddMessages({ msg }) {
+export function AddMessages({ msg }) {
   return (
     <>
       <div>
@@ -9,5 +9,3 @@ function AddMessages({ msg }) {
     </>
   );
 }
-
-export default AddMessages;
